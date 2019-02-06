@@ -22,6 +22,13 @@ function sass() {
     .pipe(browserSync.stream());
 };
 
+function fonts() {
+  console.log("in fonts");
+  return gulp.src([
+    'src/fonts/*',
+  ]).pipe(gulp.dest('build/css/fonts'));
+};
+
 function serve() {
   browserSync.init({
     server: "./"
@@ -31,6 +38,7 @@ function serve() {
   gulp.watch("*.html").on('change', browserSync.reload);
 }
 
+gulp.task('fonts', fonts);
 gulp.task('sass', sass);
-gulp.task('serve', gulp.series('sass', serve));
-gulp.task('default', gulp.series('sass', serve));
+gulp.task('serve', gulp.series(['fonts','sass'], serve));
+gulp.task('default', gulp.series(['fonts','sass'], serve));
